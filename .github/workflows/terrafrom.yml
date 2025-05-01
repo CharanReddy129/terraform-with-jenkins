@@ -38,9 +38,9 @@ jobs:
           run: cd vpc && terraform plan
 
         - name: terraform apply
-          if: ${{ github.event.inputs.action == 'apply' }}
+          if: ${{ github.event.inputs.actions == 'apply' }}
           run: cd vpc && terraform apply --auto-approve
           
         - name: terraform destroy
-          if: ${{ github.event.inputs.action == 'destroy' }}
+          if: ${{ github.event.inputs.actions == 'destroy' }}
           run: cd vpc && terraform destroy --auto-approve
