@@ -2,6 +2,15 @@ name: Terraform with actions
 
 on:
   workflow_dispatch:
+    inputs:
+      actions:
+        description: 'Terraform action to perform (apply or destroy)'
+        required: true
+        default: 'apply'
+        type: choice
+        options:
+          - apply
+          - destroy
 
 jobs:
     infra:
@@ -22,10 +31,16 @@ jobs:
           with:
             terraform_version: '1.11.4'
         
-        - name: terrafrom init
+        - name: terraform init
           run: cd vpc && terraform init
           
         - name: terraform plan
           run: cd vpc && terraform plan
 
-        
+        - name: terraform apply
+          if: ${{ github.event.inputs.action == 'apply' }}
+          run: cd vpc && terraform apply --auto-approve
+          
+        - name: terraform destroy
+          if: ${{ github.event.inputs.action == 'destroy' }}
+          run: cd vpc && terraform destroy --auto-approve
