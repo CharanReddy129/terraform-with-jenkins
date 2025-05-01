@@ -35,6 +35,7 @@ jobs:
           run: cd vpc && terraform init
           
         - name: terraform plan
+          if: ${{ github.event.inputs.actions == 'apply' }}
           run: cd vpc && terraform plan
 
         - name: terraform apply
