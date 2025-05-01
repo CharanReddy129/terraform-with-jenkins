@@ -21,5 +21,11 @@ jobs:
           uses: hashicorp/setup-terraform@v3.1.2
           with:
             terraform_version: '1.11.4'
+        
+        - name: terrafrom init
+          run: cd vpc && terraform init
+          
+        - name: terraform plan
+          run: cd vpc && terraform plan
 
         
