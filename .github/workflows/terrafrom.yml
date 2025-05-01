@@ -11,10 +11,18 @@ on:
         options:
           - apply
           - destroy
+          - skip
+      directory:
+        description: 'Terraform directory to run (eg: vpc, eks)'
+        required: true
+        default: 'vpc'
 
 jobs:
     infra:
       runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: ${{ github.event.inputs.directory }}
       steps:
         - name: checkout code
           uses: actions/checkout@v4
@@ -32,16 +40,16 @@ jobs:
             terraform_version: '1.11.4'
         
         - name: terraform init
-          run: cd vpc && terraform init
+          run: terraform init
           
         - name: terraform plan
           if: ${{ github.event.inputs.actions == 'apply' }}
-          run: cd vpc && terraform plan
+          run: terraform plan
 
         - name: terraform apply
           if: ${{ github.event.inputs.actions == 'apply' }}
-          run: cd vpc && terraform apply --auto-approve
+          run: terraform apply --auto-approve
           
         - name: terraform destroy
           if: ${{ github.event.inputs.actions == 'destroy' }}
-          run: cd vpc && terraform destroy --auto-approve
+          run: terraform destroy --auto-approve
