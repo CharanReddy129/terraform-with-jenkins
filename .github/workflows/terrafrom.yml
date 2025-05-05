@@ -11,7 +11,7 @@ on:
         options:
           - apply
           - destroy
-          - skip
+        
       directory:
         description: 'Terraform directory to run (eg: vpc, eks)'
         required: true
